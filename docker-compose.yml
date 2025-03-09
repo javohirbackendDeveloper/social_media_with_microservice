@@ -2,14 +2,15 @@ version: "3.8"
 
 services:
   api-gateway:
-  build: ./api-gateway
-  ports:
-    - "4000:4000"
-  env_file: ./api-gateway/.env
-  depends_on:
-    - redis
-  environment:
-    - REDIS_URL=redis://redis:6379
+    build: ./api-gateway
+    ports:
+      - "4000:4000"
+    env_file: ./api-gateway/.env
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+
   identity-service:
     build: ./identity-service
     env_file: ./identity-service/.env
@@ -17,21 +18,24 @@ services:
       - redis
     environment:
       - REDIS_URL=redis://redis:6379
+
   post-service:
-    build: ./identity-service
+    build: ./post-service
     env_file: ./post-service/.env
     depends_on:
       - redis
     environment:
       - REDIS_URL=redis://redis:6379
+
   media-service:
-    build: ./identity-service
+    build: ./media-service
     env_file: ./media-service/.env
     depends_on:
       - redis
     environment:
       - REDIS_URL=redis://redis:6379
-redis:
-  image: redis:alpine
-  ports:
-    - "6379:6379"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
